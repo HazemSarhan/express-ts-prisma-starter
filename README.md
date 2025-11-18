@@ -74,10 +74,9 @@ Before you begin, ensure you have the following installed:
 
    ```bash
    git clone https://github.com/HazemSarhan/express-ts-prisma-starter.git
-   cd backend
    ```
 
-2. **Install dependengities**
+2. **Install dependencies**
 
    ```bash
    npm install
