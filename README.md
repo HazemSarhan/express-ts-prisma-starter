@@ -23,6 +23,7 @@ A robust, production-ready Node.js backend API built with Express.js, TypeScript
 ## ✨ Features
 
 ### Authentication
+
 - **Local Authentication**: Email/password registration and login
 - **OAuth Integration**: Google and GitHub OAuth authentication
 - **Email Verification**: Secure email verification system
@@ -31,14 +32,15 @@ A robust, production-ready Node.js backend API built with Express.js, TypeScript
 - **Cookie-based Sessions**: Secure HTTP-only cookies
 
 ### Security
+
 - **Password Hashing**: Bcrypt with salt rounds
 - **Rate Limiting**: Protection against brute force attacks
 - **Input Validation**: Zod schema validation
 - **CORS Configuration**: Cross-origin resource sharing setup
 - **Helmet.js**: Security headers protection
-- **CSRF Protection**: Cross-site request forgery prevention
 
 ### User Management
+
 - **Role-Based Access Control (RBAC)**: Admin and User roles
 - **User Profiles**: Name, email, profile image support
 - **Account Status**: Active/inactive user management
@@ -69,27 +71,31 @@ Before you begin, ensure you have the following installed:
 ## 🚀 Installation
 
 1. **Clone the repository**
+
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/HazemSarhan/express-ts-prisma-starter.git
    cd backend
    ```
 
-2. **Install dependencies**
+2. **Install dependengities**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
    ```
 
 4. **Set up the database**
+
    ```bash
    # Generate Prisma Client
    npx prisma generate
-   
+
    # Run migrations
    npx prisma migrate dev
    ```
@@ -137,6 +143,7 @@ EMAIL=noreply@yourdomain.com
 ### Getting OAuth Credentials
 
 #### Google OAuth
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select existing one
 3. Enable Google+ API
@@ -144,11 +151,13 @@ EMAIL=noreply@yourdomain.com
 5. Add authorized redirect URIs: `http://localhost:3001/api/v1/oauth/google/callback`
 
 #### GitHub OAuth
+
 1. Go to GitHub Settings → Developer settings → OAuth Apps
 2. Click "New OAuth App"
 3. Set Authorization callback URL: `http://localhost:3001/api/v1/oauth/github/callback`
 
 #### Resend Email Service
+
 1. Sign up at [Resend](https://resend.com/)
 2. Get your API key from the dashboard
 3. Verify your domain or use the test email
@@ -184,6 +193,7 @@ The application uses the following main models:
 ## 📡 API Endpoints
 
 ### Base URL
+
 ```
 http://localhost:3001/api/v1
 ```
@@ -192,28 +202,29 @@ http://localhost:3001/api/v1
 
 #### Local Authentication
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/auth/register` | Register a new user | No |
-| POST | `/auth/login` | Login with email/password | No |
-| POST | `/auth/logout` | Logout current user | Yes |
-| GET | `/auth/verify-email/:token` | Verify email address | No |
-| POST | `/auth/resend-verification` | Resend verification email | No |
-| POST | `/auth/forgot-password` | Request password reset | No |
-| POST | `/auth/reset-password` | Reset password with token | No |
+| Method | Endpoint                    | Description               | Auth Required |
+| ------ | --------------------------- | ------------------------- | ------------- |
+| POST   | `/auth/register`            | Register a new user       | No            |
+| POST   | `/auth/login`               | Login with email/password | No            |
+| POST   | `/auth/logout`              | Logout current user       | Yes           |
+| GET    | `/auth/verify-email/:token` | Verify email address      | No            |
+| POST   | `/auth/resend-verification` | Resend verification email | No            |
+| POST   | `/auth/forgot-password`     | Request password reset    | No            |
+| POST   | `/auth/reset-password`      | Reset password with token | No            |
 
 #### OAuth Authentication
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/oauth/google` | Initiate Google OAuth | No |
-| GET | `/oauth/google/callback` | Google OAuth callback | No |
-| GET | `/oauth/github` | Initiate GitHub OAuth | No |
-| GET | `/oauth/github/callback` | GitHub OAuth callback | No |
+| Method | Endpoint                 | Description           | Auth Required |
+| ------ | ------------------------ | --------------------- | ------------- |
+| GET    | `/oauth/google`          | Initiate Google OAuth | No            |
+| GET    | `/oauth/google/callback` | Google OAuth callback | No            |
+| GET    | `/oauth/github`          | Initiate GitHub OAuth | No            |
+| GET    | `/oauth/github/callback` | GitHub OAuth callback | No            |
 
 ### Request/Response Examples
 
 #### Register User
+
 ```http
 POST /api/v1/auth/register
 Content-Type: application/json
@@ -226,6 +237,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -245,6 +257,7 @@ Content-Type: application/json
 ```
 
 #### Login
+
 ```http
 POST /api/v1/auth/login
 Content-Type: application/json
@@ -256,6 +269,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -271,7 +285,8 @@ Content-Type: application/json
   }
 }
 ```
-*Note: Access and refresh tokens are set as HTTP-only cookies*
+
+_Note: Access and refresh tokens are set as HTTP-only cookies_
 
 ## 📁 Project Structure
 
@@ -330,6 +345,7 @@ backend/
 ### Local Authentication Flow
 
 1. **Registration**
+
    - User submits email, name, and password
    - Password is hashed with bcrypt
    - User is created with `emailVerified: false`
@@ -337,6 +353,7 @@ backend/
    - User receives success response
 
 2. **Email Verification**
+
    - User clicks link in email
    - Token is validated
    - User's `emailVerified` is set to `true`
@@ -344,6 +361,7 @@ backend/
    - User is automatically logged in
 
 3. **Login**
+
    - User submits email and password
    - Credentials are validated
    - Access and refresh tokens are generated
@@ -360,6 +378,7 @@ backend/
 ### OAuth Flow
 
 1. **Initiate OAuth**
+
    - User clicks "Login with Google/GitHub"
    - Redirected to OAuth provider
    - User authorizes application
@@ -374,6 +393,7 @@ backend/
 ## 🔒 Security Features
 
 ### Password Requirements
+
 - Minimum 6 characters
 - Maximum 100 characters
 - Must contain at least one letter
@@ -381,17 +401,20 @@ backend/
 - Special characters allowed
 
 ### Rate Limiting
+
 - **Auth endpoints**: 5 requests per 15 minutes
 - **Password reset**: 3 requests per hour
 - **Email verification**: 5 requests per hour
 
 ### Token Management
+
 - **Access Token**: Short-lived (1 hour in production, 7 days in development)
 - **Refresh Token**: Long-lived (7 days in production, 30 days in development)
 - Tokens stored in HTTP-only, signed cookies
 - Refresh tokens stored in database with expiry
 
 ### Security Headers (Helmet.js)
+
 - XSS Protection
 - Content Security Policy
 - Frame Options
@@ -402,6 +425,7 @@ backend/
 The API uses a centralized error handling system:
 
 ### Error Types
+
 - `BadRequestError` (400): Invalid input or request
 - `UnauthenticatedError` (401): Missing or invalid authentication
 - `UnauthorizedError` (403): Insufficient permissions
@@ -410,6 +434,7 @@ The API uses a centralized error handling system:
 - `InternalServerError` (500): Server errors
 
 ### Error Response Format
+
 ```json
 {
   "success": false,
@@ -443,6 +468,7 @@ npx prisma studio
 ```
 
 ### Code Style
+
 - TypeScript strict mode enabled
 - ESLint recommended (if configured)
 - Consistent naming conventions
@@ -453,21 +479,25 @@ npx prisma studio
 ### Build Steps
 
 1. **Install dependencies**
+
    ```bash
    npm ci
    ```
 
 2. **Build TypeScript**
+
    ```bash
    npm run build
    ```
 
 3. **Run database migrations**
+
    ```bash
    npx prisma migrate deploy
    ```
 
 4. **Generate Prisma Client**
+
    ```bash
    npx prisma generate
    ```
@@ -480,6 +510,7 @@ npx prisma studio
 ### Environment Variables for Production
 
 Ensure all environment variables are set correctly:
+
 - `NODE_ENV=production`
 - Secure `JWT_SECRET` (minimum 20 characters)
 - Valid database connection string
@@ -487,6 +518,7 @@ Ensure all environment variables are set correctly:
 - Verified email domain in Resend
 
 ### Recommended Production Setup
+
 - Use process manager (PM2, systemd)
 - Enable HTTPS
 - Set up reverse proxy (Nginx)
@@ -503,6 +535,7 @@ Ensure all environment variables are set correctly:
 5. Open a Pull Request
 
 ### Development Guidelines
+
 - Follow TypeScript best practices
 - Write clear commit messages
 - Add comments for complex logic
@@ -520,4 +553,3 @@ For issues, questions, or contributions, please open an issue on the GitHub repo
 ---
 
 **Built with ❤️ using TypeScript, Express.js, and Prisma**
-
