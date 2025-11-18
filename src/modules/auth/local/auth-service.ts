@@ -102,18 +102,22 @@ export const loginUser = async (data: { email: string; password: string }) => {
   const user = await prisma.user.findUnique({
     where: { email: email.toLowerCase() },
   });
-  if (!user || !user.password)
-    throw new UnauthenticatedError('Invalid email or password');
 
-  if (!user.isActive)
+  const DUMMY_PASSWORD_HASH = await hashPassword('password');
+  const passwordHash = user?.password ?? DUMMY_PASSWORD_HASH;
+
+  // Always compare to prevent timing attacks
+  const isPasswordValid = await comparePassword(password, passwordHash);
+
+  if (!user || !isPasswordValid) {
+    throw new UnauthenticatedError('Invalid email or password');
+  }
+  if (!user.isActive) {
     throw new UnauthenticatedError('Your account is disabled');
-
-  if (!user.emailVerified)
+  }
+  if (!user.emailVerified) {
     throw new UnauthenticatedError('Please verify your email');
-
-  const isPasswordValid = await comparePassword(password, user.password);
-  if (!isPasswordValid)
-    throw new UnauthenticatedError('Invalid email or password');
+  }
 
   const refreshToken = crypto.randomBytes(32).toString('hex');
 
