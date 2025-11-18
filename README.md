@@ -543,7 +543,7 @@ Ensure all environment variables are set correctly:
 
 ## 📝 License
 
-This project is licensed under the ISC License.
+This project is licensed under the MIT License.
 
 ## 📞 Support
 
